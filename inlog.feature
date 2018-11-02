@@ -14,6 +14,13 @@ En ik op de knop inloggen druk
 Dan krijg ik een verkeerd-wachtwoord-melding
 En word ik niet ingelogd
 
+Scenario: inloggen zonder wachtwoord
+Als ik een geldige gebruikersnaam invoer
+En ik geen wachtwoord invoer
+En ik op de knop inloggen druk
+Dan krijg ik een wachtwoord-ontbrekend-melding
+En word ik niet ingelogd
+
 Scenario: verkeerde gebruikersnaam
 Als ik een verkeerde gebruikersnaam invoer
 En ik een verkeerd wachtwoord invoer
