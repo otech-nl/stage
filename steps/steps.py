@@ -1,4 +1,5 @@
-
+def split_and_strip(src, sep=None):
+    return [token.strip() for token in src.split(sep)]
 
 
 @given('ik ben niet ingelogd')
@@ -55,7 +56,7 @@ def wachtwoord_ontbrekend_melding(context):
     except:
         pass
     
-    #Moet nog een assert voor komen
+                                                                         #Moet nog een assert voor komen
     #assert context.browser.is_text_present('Vul dit veld in')
 
 @then('word ik niet ingelogd')
@@ -82,10 +83,12 @@ def klik_uitloggen(context):
 
 @when('ik in het zoekveld een achternaam invul')
 def vul_achternaam_in(context):
-    try:
-        context.browser.find_by_type('search').first.fill('jansen')                #hoe vind ik de zoekfunctie
-    except:
-        pass
+    #context.browser.find_by_type('search').first.fill('jansen')
+    #context.browser.find_by_id('lid_filter').first.fill('jansen')           #hoe vind ik de zoekfunctie
+    #context.browser.fill('search', 'jansen')
+    #context.browser.find_by_id('search').first.find_by_tag('input').fill('jansen')
+    context.browser.find_by_tag('input').fill('jansen')
+
 @then('word ik uitgelogd')
 def uitgelogd(context):
     loggedoff_url = '%s/login?next=%%2F' % context.base_url
@@ -95,9 +98,15 @@ def uitgelogd(context):
 def lid_overzicht(context):
     assert context.browser.url == '%s/lid/' % context.base_url
     
-@then('zie ik een tabel van leden')
-def ledentabel(context):
-    context.browser.find_by_id('lid')  #komt dit goed?
+@then('zie ik een tabel met kolommen "{columns}"')
+def step_table(context, columns):
+    tables = context.browser.find_by_id('lid')
+    assert len(tables) > 0, 'Geen datatable gevonden'
+    table = tables.first
+    row = table.find_by_tag('thead') or table.find_by_tag('tr')
+    head = row.first.text
+    for col in split_and_strip(columns, ','):
+        assert col in head, 'Kolom "%s" niet gevonden in "%s"' % (col, head)  #komt dit goed? check of er een tabel is
     
 @then('zie ik alle leden met die achternaam')
 def zoek_op_achternaam(context):
