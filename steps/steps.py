@@ -77,6 +77,7 @@ def ingelogd_check(context):
         context.browser.find_by_id('password').first.fill('nimda')          #
         context.browser.find_by_id('submit').first.click()                  #
     assert context.browser.url != loggedoff_url 
+    
 @when('ik op de knop uitloggen druk')
 def klik_uitloggen(context):
     context.browser.find_link_by_partial_href('/logout').first.click()
