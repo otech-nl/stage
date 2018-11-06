@@ -9,6 +9,7 @@ Functionaliteit: Ledenoverzicht
 	
 
 Scenario: Naar het ledenoverzicht gaan
+Stel ik ben niet op de pagina ledenoverzicht
 Als ik op de knop Leden druk
 Dan kom ik op de pagina Lid-overzicht
 En zie ik een tabel met kolommen "voornaam, tussenvoegsel, achternaam, geslacht, plaats, lidnummer"
