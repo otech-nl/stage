@@ -24,22 +24,24 @@ Als ik op de knop verwerken druk
 Dan krijg ik een vul-dit-veld-in-melding bij het naamveld
 En wordt er geen tocht toegevoegd
 
+@dontdo
 Scenario: tocht toevoegen
-Als ik op de tocht bewerken pagina ben
-En ik vuld een naam in in het naamveld
-En ik druk op de knop verwerken
+Stel ik ben op de tocht bewerken pagina
+Als ik vul een naam in in het naamveld
+En ik op de knop verwerken druk
 Dan wordt de tocht toegevoegd
 
+@werknougewoon
 Scenario: tabel sorteren
 Als ik in de tabel op plaats druk
 Dan wordt de tabel op plaatsnaam gesorteerd
 
 Scenario: naar tocht bewerken
 Als ik in de tabel op een tocht druk
-Dan kom ik op een Tocht bewerken pagina
+Dan kom ik op een Tocht bewerken pagina van die tocht
 
 Scenario: deelnemers toevoegen aan tochten
-Als ik op de toch bewerken pagina ben
+Stel ik ben op de toch bewerken pagina ----------------< dit is een andere pagina dan boven
 En ik druk op de knop Aanmelden deelnemers
 Dan kom ik op een pagina waar ik deelnemers kan toevoegen
 
