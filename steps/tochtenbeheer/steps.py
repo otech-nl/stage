@@ -61,6 +61,8 @@ def foutmelding(context):
 @then('wordt er geen tocht toegevoegd')
 def check_pagina(context):
     assert context.browser.is_text_present('Tocht bewerken')  #waarom krijg ik een assertion error
+                                                              #bij @then('zie ik een pagina Tocht bewerken') werkt ie wel
+                                                              #en het is dezelfde pagina
 
 @when('ik vul een naam in in het naamveld')
 def vul_naam_in(context):
