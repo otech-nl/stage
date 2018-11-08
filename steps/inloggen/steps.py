@@ -2,8 +2,10 @@ from behave import given, when, then
 
 @given('ik ben niet ingelogd')
 def step_logged_off(context):
+    context.browser.visit(context.base_url)
     loggedoff_url = '%s/login?next=%%2F' % context.base_url
-    context.browser.visit(loggedoff_url)
+    if context.browser.url != loggedoff_url:
+        context.browser.find_link_by_partial_href('/logout').first.click()
     
 @when('ik een geldige gebruikersnaam invoer')
 def vul_gebruikersnaam_in(context):
