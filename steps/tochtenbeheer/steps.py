@@ -10,7 +10,8 @@ from time import sleep
       #  context.browser.find_by_id('password').first.fill('nimda')          #
         #context.browser.find_by_id('submit').first.click()                  #
     #assert context.browser.url != loggedoff_url
-    
+def split_and_strip(src, sep=None):
+    return [token.strip() for token in src.split(sep)]    
 
 @given('ik ben niet op de pagina Tochten')
 def pagina_check__niet_ledenoverzicht(context):
@@ -25,10 +26,15 @@ def druk_op_tochten(context):
 #def inlog_tochten_pagina(context):
  #   assert context.browser.url == '%s/tocht/' % context.base_url
 
-@then('zie ik een tabel met tochten')
-def check_tabel_presentie(context):
-    #tabellen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    pass
+@then('zie ik een tabel met 3 kolommen "{columns}"')                          #wordt al gedaan in andere stepfile(ledenbeheer)
+def step_table(context, columns):
+    tables = context.browser.find_by_css('table.table')
+    assert len(tables) > 0, 'Geen datatable gevonden'
+    table = tables.first
+    row = table.find_by_tag('thead') or table.find_by_tag('tr')
+    head = row.first.text
+    for col in split_and_strip(columns, ','):
+        assert col in head, 'Kolom "%s" niet gevonden in "%s"' % (col, head)
 
 @when('ik op de knop Tocht toevoegen druk')
 def druk_op_tocht_toevoegen(context):
@@ -101,12 +107,12 @@ def check_volgorde_van_plaatsnamen(context):                    # als bijvoorbee
 #inhoud = ''  
 @when('ik in de tabel op een tocht druk')
 def druk_op_tocht(context):
-    table = context.browser.find_by_tag('tbody')                # of als een nieuwe tocht wordt gemaakt
-    rows = table.find_by_tag('tr')                              # in een een plaats die hoger in het
+    table = context.browser.find_by_tag('tbody')                
+    rows = table.find_by_tag('tr')                              
     row = rows[5]
     cells = row.find_by_tag('td')
     cell = cells[0]
-    global inhoud
+    global inhoud  #zodat de variabele in de @then('kom ik op een Tocht bewerken pagina van die tocht') opgevraagd kan worden
     inhoud = cell.value
     cell.click()
     
