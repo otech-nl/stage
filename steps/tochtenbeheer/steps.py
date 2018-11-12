@@ -14,7 +14,7 @@ def split_and_strip(src, sep=None):
     return [token.strip() for token in src.split(sep)]    
 
 @given('ik ben niet op de pagina Tochten')
-def pagina_check__niet_ledenoverzicht(context):
+def pagina_check_niet_ledenoverzicht(context):
     if context.browser.url == '%s/tocht/' % context.base_url:
         context.browser.find_link_by_partial_href('user').first.click()
     
@@ -136,3 +136,19 @@ def druk_op_knop(context):
 @then('kom ik op een pagina waar ik deelnemers kan toevoegen')
 def check_pagina(context):
     assert context.browser.url == '%s/registratie/11' % context.base_url
+
+@when('ik druk op de knop Afmelden deelnemers')
+def druk_knop_deelnemers_verwijderen(context):
+    context.browser.find_link_by_partial_href('afmelding').first.click()
+    
+@then('kom ik op een pagina waar ik deelnemers kan verwijderen')
+def check_pagina(context):
+    assert context.browser.url == '%s/afmelding/11' % context.base_url
+    
+@when('ik druk op de knop Afstand toevoegen')
+def druk_op_knop(context):
+    context.browser.find_link_by_partial_href('afstand/new').first.click()
+    
+@then('kom ik op een pagina waar ik afstanden kan toevoegen')
+def check_pagina(context):
+    assert context.browser.is_text_present('Afstanden:')

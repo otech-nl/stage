@@ -44,11 +44,19 @@ Als ik in de tabel op een tocht druk
 Dan kom ik op een Tocht bewerken pagina van die tocht
 
 @deelnemer_toevoegen
-Scenario: deelnemers toevoegen aan tochten
+Scenario: knop deelnemers toevoegen aan tochten
 Stel ik ben op de tocht bewerken pagina
 Als ik druk op de knop Aanmelden deelnemers
 Dan kom ik op een pagina waar ik deelnemers kan toevoegen
 
+@deelnemer_afmelden
+Scenario: knop deelnemers afmelden voor een tocht
+Stel ik ben op de tocht bewerken pagina
+Als ik druk op de knop Afmelden deelnemers
+Dan kom ik op een pagina waar ik deelnemers kan verwijderen
 
-
-
+@afstand_toevoegen
+Scenario: knop afstand toevoegen aan een tocht
+Stel ik ben op de tocht bewerken pagina
+Als ik druk op de knop Afstand toevoegen
+Dan kom ik op een pagina waar ik afstanden kan toevoegen
