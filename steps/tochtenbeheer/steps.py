@@ -11,6 +11,7 @@ from time import sleep
         #context.browser.find_by_id('submit').first.click()                  #
     #assert context.browser.url != loggedoff_url
     
+
 @given('ik ben niet op de pagina Tochten')
 def pagina_check__niet_ledenoverzicht(context):
     if context.browser.url == '%s/tocht/' % context.base_url:
@@ -24,6 +25,11 @@ def druk_op_tochten(context):
 #def inlog_tochten_pagina(context):
  #   assert context.browser.url == '%s/tocht/' % context.base_url
 
+@then('zie ik een tabel met tochten')
+def check_tabel_presentie(context):
+    #tabellen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    pass
+
 @when('ik op de knop Tocht toevoegen druk')
 def druk_op_tocht_toevoegen(context):
     context.browser.find_link_by_partial_href('tocht/0').first.click()
@@ -32,7 +38,7 @@ def druk_op_tocht_toevoegen(context):
 def check_pagina_tocht_bewerken(context):
     assert context.browser.is_text_present('Tocht bewerken')
     
-@given('ik ben op de tocht bewerken pagina')
+@given('ik ben op de tocht toevoegen pagina')
 def pagina_is_tocht_bewerken(context):
     if context.browser.is_text_present('Tocht bewerken') == True:
         pass
@@ -75,27 +81,52 @@ def check_nieuwe_tocht(context):
     
 @when('ik in de tabel op plaats druk')
 def druk_op_plaats(context):
-    #context.browser.find
-    table = context.browser.find_by_tag('table')
-    #assert len(table) > 0, 'Geen datatable gevonden'
-    table.find_by_tag('tr').find_by_tag('th').find_by_name('plaats').first.click()
-    sleep(10)
+    rows = context.browser.find_by_tag('tr')
+    cells = rows.find_by_tag('th')
+    plaats = cells[2]
+    plaats.click()
     
-    #nu_dan = toenou.find_by_xpath('tr')
-    #en_nu = nu_dan[2]
-    #print(en_nu)
-    #table.find_by_xpath('//td[. = "plaats"]/following-sibling::td/[2]').first.click()
-    #row = table.find_by_tag('thead') or table.find_by_tag('tr')
-    #head = row.first.text   
+@then('wordt de tabel op plaatsnaam gesorteerd')                # Deze gaat natuurlijk kapot
+def check_volgorde_van_plaatsnamen(context):                    # als bijvoorbeeld de tocht in Appelscha verdwijnt
+    table = context.browser.find_by_tag('tbody')                # of als een nieuwe tocht wordt gemaakt
+    rows = table.find_by_tag('tr')                              # in een een plaats die hoger in het
+    cells = rows.find_by_tag('td')                              # alfabet staat
+    eerste_result = cells[2]
+    laatsterow = rows[9]                                        # dit moet ook korter kunnen
+    cells = laatsterow.find_by_tag('td')     
+    laatste_result = cells[2]
+    assert eerste_result.value == 'Appelscha'
+    assert laatste_result.value == 'Zuidbroek'
     
+#inhoud = ''  
 @when('ik in de tabel op een tocht druk')
 def druk_op_tocht(context):
-    #hoe werk je met tabellen?
-    pass
-
+    table = context.browser.find_by_tag('tbody')                # of als een nieuwe tocht wordt gemaakt
+    rows = table.find_by_tag('tr')                              # in een een plaats die hoger in het
+    row = rows[5]
+    cells = row.find_by_tag('td')
+    cell = cells[0]
+    global inhoud
+    inhoud = cell.value
+    cell.click()
+    
 @then('kom ik op een Tocht bewerken pagina van die tocht')
 def check_tocht(context):
+    tochtnaam = context.browser.find_by_id('naam').value
+    assert tochtnaam == inhoud
     assert context.browser.is_text_present('Tocht bewerken')
-    # de value uit het naamveld halen en vergelijken met de tocht de je hebt aangeklikt
     
-#@when('ik op de tocht bewerken pagina ben')
+@given('ik ben op de tocht bewerken pagina')
+def check_pagina(context):
+    if context.browser.is_text_present('Tocht bewerken'):
+        pass
+    else:
+        context.browser.visit('%s/tocht/11' % context.base_url)
+        
+@when('ik druk op de knop Aanmelden deelnemers')
+def druk_op_knop(context):
+    context.browser.find_link_by_partial_href('registratie').first.click()
+    
+@then('kom ik op een pagina waar ik deelnemers kan toevoegen')
+def check_pagina(context):
+    assert context.browser.url == '%s/registratie/11' % context.base_url
