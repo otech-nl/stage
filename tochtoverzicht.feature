@@ -7,12 +7,12 @@ Functionaliteit: Tochtenbeheer
 	Achtergrond:
 	Stel ik ben ingelogd
 	
-
+@navigatie
 Scenario: naar het tochtoverzicht gaan
 Stel ik ben niet op de pagina Tochten
 Als ik op de link Tochten druk
 Dan kom ik op de pagina Tochten
-En zie ik een tabel met tochten
+En zie ik een tabel met 3 kolommen "naam, datum, plaats"
 
 Scenario: tocht toevoegen 
 Als ik op de knop Tocht toevoegen druk
