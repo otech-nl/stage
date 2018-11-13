@@ -1,5 +1,6 @@
 from behave import given, when, then
 from time import sleep
+
 #@given('ik ben ingelogd')                                                   #wordt al gedaan in andere stepfile(uitloggen)
 #def ingelogd_check(context):
  #   loggedoff_url = '%s/login?next=%%2F' % context.base_url
@@ -10,6 +11,7 @@ from time import sleep
       #  context.browser.find_by_id('password').first.fill('nimda')          #
         #context.browser.find_by_id('submit').first.click()                  #
     #assert context.browser.url != loggedoff_url
+
 def split_and_strip(src, sep=None):
     return [token.strip() for token in src.split(sep)]    
 
@@ -26,7 +28,7 @@ def druk_op_tochten(context):
 #def inlog_tochten_pagina(context):
  #   assert context.browser.url == '%s/tocht/' % context.base_url
 
-@then('zie ik een tabel met 3 kolommen "{columns}"')                          #wordt al gedaan in andere stepfile(ledenbeheer)
+@then('zie ik een tabel met 3 kolommen "{columns}"')                         
 def step_table(context, columns):
     tables = context.browser.find_by_css('table.table')
     assert len(tables) > 0, 'Geen datatable gevonden'
@@ -94,15 +96,25 @@ def druk_op_plaats(context):
     
 @then('wordt de tabel op plaatsnaam gesorteerd')                # Deze gaat natuurlijk kapot
 def check_volgorde_van_plaatsnamen(context):                    # als bijvoorbeeld de tocht in Appelscha verdwijnt
-    table = context.browser.find_by_tag('tbody')                # of als een nieuwe tocht wordt gemaakt
-    rows = table.find_by_tag('tr')                              # in een een plaats die hoger in het
-    cells = rows.find_by_tag('td')                              # alfabet staat
-    eerste_result = cells[2]
-    laatsterow = rows[9]                                        # dit moet ook korter kunnen
-    cells = laatsterow.find_by_tag('td')     
-    laatste_result = cells[2]
-    assert eerste_result.value == 'Appelscha'
-    assert laatste_result.value == 'Zuidbroek'
+    table = context.browser.find_by_tag('tbody')                 
+    rows = table.find_by_tag('tr')                               
+    cells = rows.find_by_tag('td') 
+    eerste_row = rows[0] 
+    tweede_row = rows[1] 
+    derde_row = rows[2] 
+    laatste_row = rows[9] 
+    eerste_cell = eerste_row.find_by_tag('td') 
+    eerste = eerste_cell[2].value 
+    tweede_cell = tweede_row.find_by_tag('td') 
+    tweede = tweede_cell[2].value 
+    derde_cell = derde_row.find_by_tag('td') 
+    derde = derde_cell[2].value 
+    laatste_cell = laatste_row.find_by_tag('td') 
+    laatste = laatste_cell[2].value 
+    lijst = (eerste, tweede, derde, laatste) 
+    lijst2 = ('Appelscha', 'De Krim', 'Kropswolde', 'Zuidbroek')
+    assert lijst == lijst2
+    
     
 #inhoud = ''  
 @when('ik in de tabel op een tocht druk')
