@@ -98,25 +98,10 @@ def druk_op_plaats(context):
 def check_volgorde_van_plaatsnamen(context):                    # als bijvoorbeeld de tocht in Appelscha verdwijnt
     table = context.browser.find_by_tag('tbody')                 
     rows = table.find_by_tag('tr')                               
-    cells = rows.find_by_tag('td') 
-    eerste_row = rows[0] 
-    tweede_row = rows[1] 
-    derde_row = rows[2] 
-    laatste_row = rows[9] 
-    eerste_cell = eerste_row.find_by_tag('td') 
-    eerste = eerste_cell[2].value 
-    tweede_cell = tweede_row.find_by_tag('td') 
-    tweede = tweede_cell[2].value 
-    derde_cell = derde_row.find_by_tag('td') 
-    derde = derde_cell[2].value 
-    laatste_cell = laatste_row.find_by_tag('td') 
-    laatste = laatste_cell[2].value 
-    lijst = (eerste, tweede, derde, laatste) 
-    lijst2 = ('Appelscha', 'De Krim', 'Kropswolde', 'Zuidbroek')
-    assert lijst == lijst2
-    
-    
-#inhoud = ''  
+    values = [row.find_by_tag('td')[2].value for row in rows]
+    assert values == sorted(values)
+
+     
 @when('ik in de tabel op een tocht druk')
 def druk_op_tocht(context):
     table = context.browser.find_by_tag('tbody')                
@@ -124,14 +109,13 @@ def druk_op_tocht(context):
     row = rows[5]
     cells = row.find_by_tag('td')
     cell = cells[0]
-    global inhoud  #zodat de variabele in de @then('kom ik op een Tocht bewerken pagina van die tocht') opgevraagd kan worden
-    inhoud = cell.value
+    context.inhoud = cell.value
     cell.click()
     
 @then('kom ik op een Tocht bewerken pagina van die tocht')
 def check_tocht(context):
     tochtnaam = context.browser.find_by_id('naam').value
-    assert tochtnaam == inhoud
+    assert tochtnaam == context.inhoud
     assert context.browser.is_text_present('Tocht bewerken')
     
 @given('ik ben op de tocht bewerken pagina')

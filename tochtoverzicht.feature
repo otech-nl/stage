@@ -18,7 +18,7 @@ Scenario: tocht toevoegen
 Als ik op de knop Tocht toevoegen druk
 Dan zie ik een pagina Tocht bewerken
 
-
+@lege_tocht
 Scenario: lege tocht toevoegen
 Stel ik ben op de tocht toevoegen pagina
 En het veld naam is leeg
