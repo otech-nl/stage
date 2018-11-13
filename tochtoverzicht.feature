@@ -14,7 +14,7 @@ Als ik op de link Tochten druk
 Dan kom ik op de pagina Tochten
 En zie ik een tabel met 3 kolommen "naam, datum, plaats"
 
-Scenario: tocht toevoegen 
+Scenario: tocht_toevoegen 
 Als ik op de knop Tocht toevoegen druk
 Dan zie ik een pagina Tocht bewerken
 
@@ -32,6 +32,7 @@ Stel ik ben op de tocht toevoegen pagina
 Als ik vul een naam in in het naamveld
 En ik op de knop verwerken druk
 Dan wordt de tocht toegevoegd
+En verwijdert behave de tocht voor volgende tests
 
 @tabel
 Scenario: tabel sorteren

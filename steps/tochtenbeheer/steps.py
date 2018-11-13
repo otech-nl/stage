@@ -1,5 +1,7 @@
 from behave import given, when, then
 from time import sleep
+from selenium.webdriver.common.keys import Keys
+#from selenium.webdriver.common.alert import Alert
 
 #@given('ik ben ingelogd')                                                   #wordt al gedaan in andere stepfile(uitloggen)
 #def ingelogd_check(context):
@@ -66,7 +68,7 @@ def veld_naam_is_leeg(context):
     
 @when('ik op de knop verwerken druk')
 def druk_op_verwerken(context):
-    context.browser.find_by_css('button').first.click() #selenium.common.exceptions.ElementNotVisibleException: Message: element not interactable
+    context.browser.find_by_name('tocht').first.click() #selenium.common.exceptions.ElementNotVisibleException: Message: element not interactable
         
 @then('krijg ik een vul-dit-veld-in-melding bij het naamveld')
 def foutmelding(context):
@@ -80,12 +82,32 @@ def check_pagina(context):
 
 @when('ik vul een naam in in het naamveld')
 def vul_naam_in(context):
-    context.browser.find_by_id('naam').first.fill('testtocht')
+    context.testnaam = 'testtocht'
+    context.browser.find_by_id('naam').first.fill(context.testnaam)
     
 @then('wordt de tocht toegevoegd')
 def check_nieuwe_tocht(context):
-    pass
-    #code
+    context.browser.find_link_by_partial_href('tochten').first.click()
+    rows = context.browser.find_by_tag('tr')
+    row = rows[-1]
+    cells = row.find_by_tag('td')
+    assert cells[0].value == context.testnaam, cells[0].value
+    
+@then('verwijdert behave de tocht voor volgende tests')
+def tocht_verwijderen(context):
+    try:
+        context.browser.find_link_by_partial_href('tochten').first.click()
+    finally:
+        rows = context.browser.find_by_tag('tr')
+        row = rows[-1]
+        cells = row.find_by_tag('td')
+        cells[0].click()
+        context.browser.find_by_xpath('//a/span[@title="remove"]').first.click()
+        alert = context.browser.driver.switch_to_alert()
+        sleep(4)
+        alert.accept()
+        sleep(5)
+    assert cells[0] != context.testnaam
     
 @when('ik in de tabel op plaats druk')
 def druk_op_plaats(context):
