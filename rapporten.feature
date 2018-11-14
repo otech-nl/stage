@@ -2,11 +2,7 @@
 
 Functionaliteit: Rapporten
 	Als gebruiker
-<<<<<<< HEAD
 	Wil ik een lijst van rapporten bekijken
-=======
-	Wil ik lijst van rapporten bekijken
->>>>>>> e9d3b664b3d15999a883b86d7d0d997dd99ff6e7
 
 	Achtergrond:
 	Stel ik ben ingelogd
@@ -32,18 +28,13 @@ Als ik op de link klik naar Hoofdbewoners
 Dan kom ik op de pagina Hoofdbewoners
 En krijg ik een lijst met adresgegevens Hoofdbewoners te zien
 
-<<<<<<< HEAD
 @rapportenhbcsv
-=======
-@rapportencsv
->>>>>>> e9d3b664b3d15999a883b86d7d0d997dd99ff6e7
 Scenario: Download link naar Hoofdbewoners
 Stel ik ben op de Rapporten pagina
 Als ik op de CSV link klik
 Dan zie ik de voltooide download in de Downloads map
 En verwijder ik deze voor toekomstige tests
 
-<<<<<<< HEAD
 @rapportenhbprint
 Scenario: Link naar printbare pagina Hoofdbewoners
 Stel ik ben op de Rapporten pagina
@@ -77,5 +68,24 @@ Als ik op de link klik naar Categorie-overzicht
 Dan kom ik op de pagina Categorie-overzicht
 En kan ik alle categorieen bekijken door op de links te klikken
 
-=======
->>>>>>> e9d3b664b3d15999a883b86d7d0d997dd99ff6e7
+@rapportenledenopafstand
+Scenario: Link naar pagina leden op afstand
+Stel ik ben op de rapporten pagina
+Als ik op de link klik naar Afstanden-overzicht
+Dan kom ik op de pagina met leden op afstand
+En krijg ik een lijst van leden op afstand
+
+@rapportenledenopafstand
+Scenario: Lijst sorteren op ingevulde afstanden
+Stel ik ben op de pagina leden op afstand
+Als ik een minimum en maximum afstand invul en op verwerken klik
+Dan krijg ik een lijst van leden die tussen die afstanden vallen
+
+@rapportenledenprovincie
+Scenario: Link naar pagina met leden per provincie
+Stel ik ben op de rapporten pagina
+Als ik op de link klik naar Herkomst-overzicht
+Dan kom ik op de pagina Herkomst-overzicht
+En kan ik alle provincies bekijken door op de links te klikken
+
+
