@@ -95,20 +95,21 @@ def check_nieuwe_tocht(context):
     
 @then('verwijdert behave de tocht voor volgende tests')
 def tocht_verwijderen(context):
-    if context.browser.find_link_by_partial_href('tochten'):
-        context.browser.find_link_by_partial_href('tochten').first.click()
+    def bekijk_alle_tochten(context):
+        if context.browser.find_link_by_partial_href('tochten'):
+            context.browser.find_link_by_partial_href('tochten').first.click()
     rows = context.browser.find_by_tag('tr')
     row = rows[-1]
     cells = row.find_by_tag('td')
     cells[0].click()
-    context.browser.find_by_xpath('//a/span[@title="remove"]').first.click()
-    alert = context.browser.driver.switch_to_alert()
-    sleep(2)
-    alert.accept()
-    if context.browser.find_link_by_partial_href('tochten'):
-        context.browser.find_link_by_partial_href('tochten').first.click()
-    sleep(3)
-    assert cells[0] != context.testnaam
+    if context.browser.find_by_id('naam').value == context.testnaam:                    #zodat niet echt-bestaande tochten worden verwijderd
+        context.browser.find_by_xpath('//a/span[@title="remove"]').first.click()
+        alert = context.browser.driver.switch_to_alert()
+        alert.accept()
+        bekijk_alle_tochten(context)
+        assert cells[0] != context.testnaam
+    else:
+        return False, 'er is iets mis gegaan'
     
 @when('ik in de tabel op plaats druk')
 def druk_op_plaats(context):
