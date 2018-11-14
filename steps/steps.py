@@ -6,5 +6,6 @@ from tochtenbeheer import steps
 from gebruikersbeheer import steps
 from rollenbeheer import steps
 from rapporten import steps
+from verenigingbeheer import steps
 #from behave import given, when, then
 
