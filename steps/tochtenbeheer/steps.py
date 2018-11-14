@@ -1,7 +1,6 @@
 from behave import given, when, then
 from time import sleep
 from selenium.webdriver.common.keys import Keys
-#from selenium.webdriver.common.alert import Alert
 
 #@given('ik ben ingelogd')                                                   #wordt al gedaan in andere stepfile(uitloggen)
 #def ingelogd_check(context):
@@ -68,7 +67,7 @@ def veld_naam_is_leeg(context):
     
 @when('ik op de knop verwerken druk')
 def druk_op_verwerken(context):
-    context.browser.find_by_name('tocht').first.click() #selenium.common.exceptions.ElementNotVisibleException: Message: element not interactable
+    context.browser.find_by_xpath('//button[@type="submit"]').first.click()
         
 @then('krijg ik een vul-dit-veld-in-melding bij het naamveld')
 def foutmelding(context):
@@ -109,7 +108,7 @@ def tocht_verwijderen(context):
         bekijk_alle_tochten(context)
         assert cells[0] != context.testnaam
     else:
-        return False, 'er is iets mis gegaan'
+        return False, 'er is iets mis gegaan, de verkeerde tocht is geopend'
     
 @when('ik in de tabel op plaats druk')
 def druk_op_plaats(context):
@@ -156,6 +155,40 @@ def druk_op_knop(context):
 @then('kom ik op een pagina waar ik deelnemers kan toevoegen')
 def check_pagina(context):
     assert context.browser.url == '%s/registratie/11' % context.base_url
+    
+@given('ik ben op de pagina waar ik deelnemers kan toevoegen')
+def check_pagina(context):
+    if context.browser.url == '%s/registratie/11' % context.base_url:
+        pass
+    else:
+        context.browser.visit('%s/registratie/11' % context.base_url)
+        
+@when('ik in het veld achternaam een deelnemer invul')
+def deelnemernaam_invullen(context):
+    context.achternaam = 'Deelnemer'
+    context.browser.find_by_id('achternaam').first.fill(context.achternaam)
+    sleep(3)
+    
+@when('ik in het veld lidnummer het bijbehorende lidnummer invul')
+def lidnummer_invullen(context):
+    context.lidnummer = '3231'
+    context.browser.find_by_id('lidnummer').first.fill(context.lidnummer)
+    sleep(3)
+    
+@when('ik op de verwerken knop druk')
+def op_verwerken_knop_drukken(context):
+    context.browser.find_by_xpath('//button[@type="submit"]').first.click()
+    sleep(3)
+
+@then('wordt de deelnemer aan de tocht toegevoegd')
+def check_toevoeging_deelnemer(context):
+    table = context.browser.find_by_tag('tbody')                
+    rows = table.find_by_tag('tr')                              
+    row = rows[0]
+    cells = row.find_by_tag('td')
+    cell = cells[0]
+    deelnemer = cell.value
+    assert deelnemer == '[' + context.lidnummer + '] ' + 'T. E. S. T. ' + context.achternaam, deelnemer #+ '[' + context.lidnummer + '] ' + context.achternaam
 
 @when('ik druk op de knop Afmelden deelnemers')
 def druk_knop_deelnemers_verwijderen(context):
