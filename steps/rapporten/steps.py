@@ -1,4 +1,5 @@
 from behave import given, when, then
+from random import randint
 #from selenium import webdriver
 #driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
 #from selenium.webdriver.common.keys import Keys
@@ -135,3 +136,110 @@ def check_collapse_categorie(context):
     context.browser.find_by_css('div.panel:nth-child(6) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
     #assert context.browser.find_by_id('categorie_1')
     #assert context.browser.find_by_css('.collapse.in')
+
+@when('ik op de link klik naar Afstanden-overzicht')
+def click_link_afstanden(context):
+    context.browser.find_link_by_partial_href('rapport/afstanden').first.click()
+
+@then('kom ik op de pagina met leden op afstand')
+def check_page_afstanden(context):
+    assert context.browser.url == '%s/rapport/afstanden' % context.base_url
+    assert context.browser.is_text_present('Leden naar afstand')
+
+@then('krijg ik een lijst van leden op afstand')
+def check_list_afstanden(context):
+    assert context.browser.find_by_css('.display')
+    assert context.browser.is_text_present('km)')
+
+@given('ik ben op de pagina leden op afstand')
+def check_page_afstanden(context):
+    if context.browser.url == '%s/rapport/afstanden' % context.base_url:
+        pass
+    else:
+        context.browser.visit('%s/rapport' % context.base_url)
+        context.browser.find_link_by_partial_href('rapport/afstanden').first.click()
+        assert context.browser.url == '%s/rapport/afstanden' % context.base_url
+        assert context.browser.is_text_present('Leden naar afstand')
+
+@when('ik een minimum en maximum afstand invul en op verwerken klik')
+def fill_afstanden(context):
+    randommin = (randint(0,11000))
+    randommax = (randint(11001, 25000))
+    context.browser.find_by_id('min').first.fill(randommin)
+    context.browser.find_by_id('max').first.fill(randommax)
+    context.browser.find_by_xpath('/html/body/div/div/form/div[2]/button/span').first.click()
+    time.sleep(3)
+
+@then('krijg ik een lijst van leden die tussen die afstanden vallen')
+def check_results_afstanden(context):
+    assert context.browser.find_by_css('.display')
+    assert context.browser.is_text_present('km)')
+
+@when('ik op de link klik naar Herkomst-overzicht')
+def click_categorie(context):
+    context.browser.find_link_by_partial_href('rapport/herkomst').first.click()
+
+@then('kom ik op de pagina Herkomst-overzicht')
+def check_page_categorie(context):
+    assert context.browser.url == '%s/rapport/herkomst' % context.base_url
+
+@then('kan ik alle provincies bekijken door op de links te klikken')
+def check_collapse_categorie(context):
+    #context.browser.find_link_by_partial_href('#categorie_', 'number').click() #voor later. uitvogelen hoe ik automatisch de getallen kan laten optellen.
+    context.browser.find_link_by_partial_href('#categorie_1').click()
+    assert context.browser.find_by_css('.collapse.in')
+    context.browser.find_link_by_partial_href('#categorie_1').click()
+    time.sleep(1)
+
+    # context.browser.find_by_css('div.panel:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(2) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(2) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(3) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(3) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(4) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(4) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(5) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(5) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(6) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(6) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # context.browser.find_by_css('div.panel:nth-child(7) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(7) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(8) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(8) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(9) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(9) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(10) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(10) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(11) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(11) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(12) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(12) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+    # context.browser.find_by_css('div.panel:nth-child(13) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # assert context.browser.find_by_css('.collapse.in')
+    # context.browser.find_by_css('div.panel:nth-child(13) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)').click()
+    # time.sleep(1)
+
