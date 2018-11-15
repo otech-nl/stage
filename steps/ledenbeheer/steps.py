@@ -41,7 +41,7 @@ def step_table(context, columns):
     row = table.find_by_tag('thead') or table.find_by_tag('tr')
     head = row.first.text
     for col in split_and_strip(columns, ','):
-        assert col in head, 'Kolom "%s" niet gevonden in "%s"' % (col, head)  #komt dit goed? check of er een tabel is
+        assert col in head, 'Kolom "%s" niet gevonden in "%s"' % (col, head)
         
 @when('ik in het zoekveld een achternaam invul')
 def zoek_achternaam(context):
@@ -56,3 +56,27 @@ def check_tabel_results(context):
     rows = table.find_by_tag('tr')                                
     values = [row.find_by_tag('td')[2].value for row in rows] 
     assert all(context.lidzoektocht in values for values in values), values
+    
+@then('leegt behave het zoekveld voor volgende tests')
+def leeg_zoekveld(context):
+    context.browser.find_by_xpath('//input[@type="search"]').first.clear()   #cleart niks maar de boel wordt wel vrolijk groen?????????
+    sleep(3)                                                                 #in ptpyhon komt deze melding: splinter.exceptions.ElementDoesNotExist:
+                                                                             #no elements could be found with xpath "//input[@type="search"]"
+                                                                             #terwijl @when('ik in het zoekveld een achternaam invul') het element
+                                                                             #wel vindt en invult zoals opgedragen
+
+    
+@when('ik in de tabel op achternaam druk')
+def druk_op_achternaam(context):
+    rows = context.browser.find_by_tag('tr')
+    cells = rows.find_by_tag('th')
+    achternaam = cells[2]
+    achternaam.click()
+    
+@then('wordt de tabel op achternaam gesorteerd')                
+def check_volgorde_van_plaatsnamen(context):                    
+    table = context.browser.find_by_tag('tbody')                 
+    rows = table.find_by_tag('tr')                               
+    values = [row.find_by_tag('td')[2].value for row in rows]
+    assert values == sorted(values), 'niet gesorteerd:' + str(values)
+    
