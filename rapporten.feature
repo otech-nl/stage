@@ -88,4 +88,95 @@ Als ik op de link klik naar Herkomst-overzicht
 Dan kom ik op de pagina Herkomst-overzicht
 En kan ik alle provincies bekijken door op de links te klikken
 
+@rapporteninschrijving
+#moet nog gemaakt worden
+
+@rapportenleeftijd
+Scenario: Link naar pagina leden op geboortedatum
+Stel ik ben op de rapporten pagina
+Als ik op de link klik naar leeftijd en geboortedatum
+Dan kom ik op de pagina met leden op geboortedatum
+En krijg ik een zoekfunctie te zien
+
+@rapportenleeftijd
+Scenario: Zoeken op leeftijd
+Stel ik ben op de pagina leden op geboortedatum
+Als ik een datum en leeftijden invul in de zoekvelden
+Dan kan ik zoeken op geboortedatum en leeftijdsbereik
+En krijg ik een lijst met de gespecificeerde zoekcriteria
+
+@rapportenbekers
+#moet nog gemaakt worden
+
+@rapportenemailexport
+Scenario: Download voor Outlook-CSV
+Stel ik ben op de rapporten pagina
+Als ik klik op de link naar Email export
+Dan zal er een CSV bestand downloaden
+En die verwijder ik voor toekomstige tests
+
+@rapportentochten
+#moet nog gemaakt worden
+
+@rapportenbetalingen
+Scenario: Link naar uitleg betalingen
+Stel ik ben op de rapporten pagina
+Als ik op de uitleg link klik
+Dan kom ik op de pagina met betalingsuitleg
+En kan ik de links op deze pagina bezoeken
+
+@rapporteneersteincasso
+Scenario: Link naar eerste incasso
+Stel ik ben op de rapporten pagina
+Als ik op de Eerste incasso link klik
+Dan kom ik op de pagina met eerste incassos
+En krijg ik een lijst met machtigingsdata te zien
+
+@rapportenvolgendeincasso
+Scenario: Link naar volgende incasso
+Stel ik ben op de rapporten pagina
+Als ik op de Volgende incasso link klik
+Dan kom ik op de pagina met de volgende incassos
+En krijg ik een lijst met machtigingsdata te zien
+
+@rapportenxmldownload
+#moet nog gemaakt worden. link op de website werkt niet.
+
+@rapportenxmltoelichting
+Scenario: Link naar toelichting over XML download
+Stel ik ben op de rapporten pagina
+Als ik de Toelichting link klik
+Dan kom ik op de tweede helft van de pagina met betalingsuitleg
+
+@rapportenkaslijst
+Scenario: Link naar lijst met leden die betalen per kas
+Stel ik ben op de rapporten pagina
+Als ik op de lijst link klik
+Dan kom ik de pagina met een lijst van leden die betalen per kas
+
+@rapportenkasetiketten
+Scenario: Link naar pagina met etiketten van leden die betalen per kas
+Stel ik ben op de rapporten pagina
+Als ik op etiketten link klik
+Dan kom ik op de pagina met etiketten van leden die betalen per kas
+
+@rapportenoninbaar
+Scenario: Link naar pagina met leden met oninbare contributie
+Stel ik ben op de rapporten pagina
+Als ik op de link naar de pagina met leden waarvoor geen contributie kan worden geind
+Dan kom ik op de pagina met leden met oninbare contributie
+En zie ik hier een lijst van
+
+@rapportenbondsnummers
+Scenario: Link naar de lijst met leden met dubbele bondsnummers
+Stel ik ben op de rapporten pagina
+Als ik op de Dubbele bondsnummers link klik
+Dan kom ik op de pagina met leden met dubbele bondsnummers
+En zie ik hier een lijst van
+
+@rapportenadressendubbel
+Scenario: Link naar de lijst met leden met dubbele adressen
+Stel ik ben op de rapporten pagina
+Als ik op de Dubbele adressen link klik
+Dan kom ik op de pagina met leden met dubbele adressen
 
