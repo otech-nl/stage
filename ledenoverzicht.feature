@@ -6,6 +6,7 @@ Functionaliteit: Ledenoverzicht
 
 	Achtergrond:
 	Stel ik ben ingelogd
+	Stel ik ben op de pagina ledenoverzicht
 	
 
 Scenario: Naar het ledenoverzicht gaan
@@ -14,6 +15,7 @@ Als ik op de knop Leden druk
 Dan kom ik op de pagina Lid-overzicht
 En zie ik een tabel met kolommen "voornaam, tussenvoegsel, achternaam, geslacht, plaats, lidnummer"
 
+@lid_zoeken
 Scenario: Lid zoeken
 Als ik in het zoekveld een achternaam invul
 Dan zie ik alle leden met die achternaam

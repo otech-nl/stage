@@ -1,4 +1,5 @@
 from behave import given, when, then
+from time import sleep
 
 def split_and_strip(src, sep=None):
     return [token.strip() for token in src.split(sep)]
@@ -14,9 +15,15 @@ def split_and_strip(src, sep=None):
        # context.browser.find_by_id('submit').first.click()                  #
     #assert context.browser.url != loggedoff_url 
     
+@given('ik ben op de pagina ledenoverzicht')
+def check_pagina(context):
+    if context.browser.url != '%s/lid/' % context.base_url:
+        context.browser.visit('%s/lid/' % context.base_url)
+
 @given('ik ben niet op de pagina ledenoverzicht')
 def check_pagina_niet_ledenoverzicht(context):
-    pass #moet nog gemaakt worden
+    if context.browser.url == '%s/lid/' % context.base_url:
+        context.browser.find_link_by_partial_href('user').first.click()    
 
 @when('ik op de knop Leden druk')
 def klik_leden(context):
@@ -35,3 +42,17 @@ def step_table(context, columns):
     head = row.first.text
     for col in split_and_strip(columns, ','):
         assert col in head, 'Kolom "%s" niet gevonden in "%s"' % (col, head)  #komt dit goed? check of er een tabel is
+        
+@when('ik in het zoekveld een achternaam invul')
+def zoek_achternaam(context):
+    context.lidzoektocht = 'Deelnemer'
+    context.browser.find_by_xpath('//input[@type="search"]').first.fill(context.lidzoektocht)
+    #sleep(2)
+    
+@then('zie ik alle leden met die achternaam')
+def check_tabel_results(context):
+    sleep(2)
+    table = context.browser.find_by_tag('tbody')                  
+    rows = table.find_by_tag('tr')                                
+    values = [row.find_by_tag('td')[2].value for row in rows] 
+    assert all(context.lidzoektocht in values for values in values), values
