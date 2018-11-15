@@ -80,3 +80,46 @@ def check_volgorde_van_plaatsnamen(context):
     values = [row.find_by_tag('td')[2].value for row in rows]
     assert values == sorted(values), 'niet gesorteerd:' + str(values)
     
+@when('ik 10 selecteer in het aantal resultaten weergeven')
+def selecteer_10(context):
+    context.browser.find_option_by_text('10').first.click()
+    
+@then('krijg maximaal 10 resultaten per pagina te zien')
+def check_tabel_lengte(context):
+    tables = context.browser.find_by_css('table.table')
+    assert len(tables) > 0, 'Geen datatable gevonden'
+    assert len(tables) <= 10, 'Tabel te lang'
+    
+@when('ik 100 selecteer in het aantal resultaten weergeven')
+def selecteer_100(context):
+    context.browser.find_option_by_text('100').first.click()
+    
+@then('krijg maximaal 100 resultaten per pagina te zien')
+def check_tabel_lengte(context):
+    tables = context.browser.find_by_css('table.table')
+    assert len(tables) > 0, 'Geen datatable gevonden'
+    assert len(tables) <= 100, 'Tabel te lang'    
+
+@given('behave heeft een lijst van de tweede set van 10 leden')
+def stel_lijst_samen(context):
+    context.browser.find_option_by_text('25').first.click()
+    table = context.browser.find_by_tag('tbody')                  
+    rows = table.find_by_tag('tr')                                
+    lijst = [row.find_by_tag('td')[2].value for row in rows] 
+    context.lijst2 = [lijst[i] for i in (10,11,12,13,14,15,16,17,18,19)]   
+    
+@given('ik zie 10 leden per pagina')
+def bekijk_10_leden(context):
+    context.browser.find_option_by_text('10').first.click()
+        
+@when('ik op pagina 2 druk')
+def ga_naar_pagina_2(context):
+    context.browser.find_by_xpath('//ul/li/a[@data-dt-idx="2"]').first.click()
+    sleep(3)
+    
+@then('zie ik de tweede set van 10 leden')
+def check_lijst_tegen_lijst(context):
+    table = context.browser.find_by_tag('tbody')                  
+    rows = table.find_by_tag('tr')                                
+    lijst = [row.find_by_tag('td')[2].value for row in rows] 
+    assert lijst == context.lijst2, str(lijst) + 'is niet' + str(context.lijst2)
