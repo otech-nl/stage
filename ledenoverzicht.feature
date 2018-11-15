@@ -6,8 +6,7 @@ Functionaliteit: Ledenoverzicht
 
 	Achtergrond:
 	Stel ik ben ingelogd
-	Stel ik ben op de pagina ledenoverzicht
-	
+		
 
 Scenario: Naar het ledenoverzicht gaan
 Stel ik ben niet op de pagina ledenoverzicht
@@ -17,8 +16,24 @@ En zie ik een tabel met kolommen "voornaam, tussenvoegsel, achternaam, geslacht,
 
 @lid_zoeken
 Scenario: Lid zoeken
+Stel ik ben op de pagina ledenoverzicht
 Als ik in het zoekveld een achternaam invul
 Dan zie ik alle leden met die achternaam
+En leegt behave het zoekveld voor volgende tests
+
+@alfabetisch_sorteren
+Scenario: Leden op achternaam sorteren
+Stel ik ben op de pagina ledenoverzicht
+Als ik in de tabel op achternaam druk
+Dan wordt de tabel op achternaam gesorteerd
+
+Scenario: aantal resultaten weergeven
+Als ik 10 selecteer in het aantal resultaten weergeven
+Dan krijg maximaal 10 resultaten per pagina te zien
+
+Scenario: aantal resultaten weergeven
+Als ik 100 selecteer in het aantal resultaten weergeven
+Dan krijg maximaal 100 resultaten per pagina te zien
 
 Scenario: Lid toevoegen knop
 Als ik op de knop Voeg lid toe druk
@@ -43,18 +58,6 @@ Dan zie ik een lid bewerken formulier van dat lid
 Scenario: lid verwijderen
 Als ik op het lid bewerken formulier ben
 Dan kan ik het lid verwijderen
-
-Scenario: aantal resultaten weergeven
-Als ik 10 selecteer in het aantal resultaten weergeven
-Dan krijg maximaal 10 resultaten per pagina te zien
-
-Scenario: aantal resultaten weergeven
-Als ik 100 selecteer in het aantal resultaten weergeven
-Dan krijg maximaal 100 resultaten per pagina te zien
-
-Scenario: tabel sorteren
-Als ik in de tabel op plaats druk
-Dan worden de resultaten alfabetisch gesorteerd op plaatsnaam
 
 Scenario: zoekresultaten behouden
 Als ik een zoekopdracht doe
