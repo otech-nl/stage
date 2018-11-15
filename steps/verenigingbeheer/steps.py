@@ -65,20 +65,23 @@ def check_pagina(context):
 
 @when('ik vul het veld afkorting in')
 def vul_afk_in(context):
-    context.afkorting = 'VCRW'
-    context.browser.find_by_id('afkorting').first.fill(context.afkorting)
+    context.afkorting_vereniging = 'VCRW'
+    context.browser.find_by_id('afkorting').first.fill(context.afkorting_vereniging)
     
 @when('ik vuld het veld naam in')
 def vul_naam_in(context):
-    context.naam = 'Vereniging ter Controle van Ren%s\'s Werk' % '\xe9'
-    context.browser.find_by_id('naam').first.fill(context.naam)
+    context.naam_vereniging = 'Vereniging ter Controle van Ren%s\'s Werk' % '\xe9'
+    context.browser.find_by_id('naam').first.fill(context.naam_vereniging)
     
 @then('wordt de vereniging toegevoegd')
 def check_toevoeging(context):
-    pass
-#code
+    rows = context.browser.find_by_tag('tr')
+    row = rows[-1]
+    cells = row.find_by_tag('td')
+    assert cells[0].value == context.afkorting_vereniging, cells[0].value
+    assert cells[1].value == context.naam_vereniging, cells[1].value
 
 @then('verwijdert behave de vereniging voor volgende tests')
 def verwijder_toegevoegde_vereniging(context):
     pass
-#code
+# verenigingen kunnen niet verwijderd worden

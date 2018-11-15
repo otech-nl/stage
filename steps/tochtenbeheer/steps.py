@@ -58,12 +58,10 @@ def pagina_is_tocht_bewerken(context):
     
 @given('het veld naam is leeg')
 def veld_naam_is_leeg(context):
-    value = context.browser.find_by_id('naam').first.value
-    if value == '':
-        pass
-    #else value.fill('')
-    
-    #else context.browser.find_by_id('naam').first.fill('')
+    field = context.browser.find_by_id('naam').first
+    value = field.value 
+    if value != '': 
+        field.clear()
     
 @when('ik op de knop verwerken druk')
 def druk_op_verwerken(context):
@@ -117,8 +115,8 @@ def druk_op_plaats(context):
     plaats = cells[2]
     plaats.click()
     
-@then('wordt de tabel op plaatsnaam gesorteerd')                # Deze gaat natuurlijk kapot
-def check_volgorde_van_plaatsnamen(context):                    # als bijvoorbeeld de tocht in Appelscha verdwijnt
+@then('wordt de tabel op plaatsnaam gesorteerd')                
+def check_volgorde_van_plaatsnamen(context):                    
     table = context.browser.find_by_tag('tbody')                 
     rows = table.find_by_tag('tr')                               
     values = [row.find_by_tag('td')[2].value for row in rows]
@@ -167,18 +165,16 @@ def check_pagina(context):
 def deelnemernaam_invullen(context):
     context.achternaam = 'Deelnemer'
     context.browser.find_by_id('achternaam').first.fill(context.achternaam)
-    sleep(3)
     
 @when('ik in het veld lidnummer het bijbehorende lidnummer invul')
 def lidnummer_invullen(context):
     context.lidnummer = '3231'
+    context.browser.find_by_id('lidnummer').first.clear()
     context.browser.find_by_id('lidnummer').first.fill(context.lidnummer)
-    sleep(3)
     
 @when('ik op de verwerken knop druk')
 def op_verwerken_knop_drukken(context):
     context.browser.find_by_xpath('//button[@type="submit"]').first.click()
-    sleep(3)
 
 @then('wordt de deelnemer aan de tocht toegevoegd')
 def check_toevoeging_deelnemer(context):
