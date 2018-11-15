@@ -122,4 +122,4 @@ def check_lijst_tegen_lijst(context):
     table = context.browser.find_by_tag('tbody')                  
     rows = table.find_by_tag('tr')                                
     lijst = [row.find_by_tag('td')[2].value for row in rows] 
-    assert lijst == context.lijst2, str(lijst) + 'is niet' + str(context.lijst2)
+    assert lijst == context.lijst2, str(lijst) + ' is niet ' + str(context.lijst2)
