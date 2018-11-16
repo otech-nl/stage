@@ -106,7 +106,13 @@ def stel_lijst_samen(context):
     table = context.browser.find_by_tag('tbody')                  
     rows = table.find_by_tag('tr')                                
     lijst = [row.find_by_tag('td')[2].value for row in rows] 
-    context.lijst2 = [lijst[i] for i in (10,11,12,13,14,15,16,17,18,19)]  #Nog wel even een mooi loopje bouwen : i = 10 while i < 20: i + 1
+    context.lijst2 = [lijst[i] for i in (10,11,12,13,14,15,16,17,18,19)]  
+    #Nog wel even een mooi loopje bouwen :
+    #Deze lijkt oneindig te loopen:
+    #i = 10
+    #while i < 20:
+    #    context.lijst2 = [lijst[i]]
+    #    i + 1    
     
 @given('ik zie 10 leden per pagina')
 def bekijk_10_leden(context):
