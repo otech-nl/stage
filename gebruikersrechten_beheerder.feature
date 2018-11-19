@@ -2,7 +2,7 @@
 
 Functionaliteit: Gebruikersrechten - beheerder
 	Als Beheerder
-	Wil ik alleen toegang hebben tot mijn eigen vereniging
+	Wil ik alleen rechten van een beheerder hebben
 
 	Achtergrond:
 	Stel ik ben ingelogd als beheerder
