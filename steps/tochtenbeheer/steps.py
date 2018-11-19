@@ -1,6 +1,7 @@
 from behave import given, when, then
 from time import sleep
 from selenium.webdriver.common.keys import Keys
+import datetime
 
 #@given('ik ben ingelogd')                                                   #wordt al gedaan in andere stepfile(uitloggen)
 #def ingelogd_check(context):
@@ -201,3 +202,31 @@ def druk_op_knop(context):
 @then('kom ik op een pagina waar ik afstanden kan toevoegen')
 def check_pagina(context):
     assert context.browser.is_text_present('Afstanden:')
+    
+@given('ik ben op de tochten pagina')
+def tochten_pagina(context):
+    if context.browser.url != '%s/tocht/' % context.base_url:
+        context.browser.visit('%s/tocht/' % context.base_url)
+        
+@when('ik de eerstvolgende tocht bekijk')
+def eerstvolgende_tocht(context):
+    links = context.browser.find_link_by_partial_href('tocht')
+    links[1].click()
+    context.datum_eerstvolgende_tocht = context.browser.find_by_id('datum').value
+
+@then('ligt die tocht in de toekomst')
+def toekomstvoorspelling(context):
+    now = datetime.datetime.now() 
+    heden = str(now.year) + '-' + str(now.month) + '-' + str(now.day)
+    assert context.datum_eerstvolgende_tocht >= heden
+    
+@then('is er geen tocht die eerder komt')
+def geen_andere_tocht(context):
+    context.browser.visit('%s/tochten/' % context.base_url)
+    table = context.browser.find_by_tag('tbody')                 
+    rows = table.find_by_tag('tr') 
+    values = [row.find_by_tag('td')[1].value for row in rows]  
+    now = datetime.datetime.now() 
+    heden = str(now.year) + '-' + str(now.month) + '-' + str(now.day)    
+    for data in values:
+        assert data >= context.datum_eerstvolgende_tocht or heden >= data

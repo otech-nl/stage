@@ -72,3 +72,10 @@ Scenario: knop afstand toevoegen aan een tocht
 Stel ik ben op de tocht bewerken pagina
 Als ik druk op de knop Afstand toevoegen
 Dan kom ik op een pagina waar ik afstanden kan toevoegen
+
+@datumcheck
+Scenario: eerstvolgende tocht bekijken
+Stel ik ben op de tochten pagina
+Als ik de eerstvolgende tocht bekijk
+Dan ligt die tocht in de toekomst
+En is er geen tocht die eerder komt
