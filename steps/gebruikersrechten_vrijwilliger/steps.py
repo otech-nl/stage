@@ -1,6 +1,11 @@
 from behave import given, when, then
 from time import sleep
 
+def log_in(context, email, password):
+    context.browser.find_by_id('email').first.fill(email)
+    context.browser.find_by_id('password').first.fill(password)
+    context.browser.find_by_id('submit').first.click()
+
 @given('ik ben uitgelogd')
 def uitgelogd(context):
     loggedoff_url = '%s/login?next=%%2F' % context.base_url
@@ -13,9 +18,10 @@ def uitgelogd(context):
 @when('ik de inloggegevens van een Vrijwilliger (FLAL) invul')
 def inlog_vrijwilliger_FLAL(context):
     if context.browser.is_element_present_by_id('email'):                           #zodat er wordt gewacht op het invulveld
-        context.browser.find_by_id('email').first.fill('Vrijwilliger FLAL')
-        context.browser.find_by_id('password').first.fill('FLAL')
-        context.browser.find_by_id('submit').first.click() 
+        log_in(context, 'Vrijwilliger FLAL', 'FLAL')
+        #context.browser.find_by_id('email').first.fill('Vrijwilliger FLAL')
+        #context.browser.find_by_id('password').first.fill('FLAL')
+        #context.browser.find_by_id('submit').first.click() 
 
 @then('wordt ik ingelogd')
 def check_inlog(context):
@@ -24,9 +30,7 @@ def check_inlog(context):
 @when('ik de inloggegevens van een Vrijwilliger (ACV) invul')
 def inlog_vrijwilliger_ACV(context):
     if context.browser.is_element_present_by_id('email'):                           #zodat er wordt gewacht op het invulveld
-        context.browser.find_by_id('email').first.fill('Vrijwilliger ACV')
-        context.browser.find_by_id('password').first.fill('ACV')
-        context.browser.find_by_id('submit').first.click() 
+        log_in(context, 'Vrijwilliger ACV', 'ACV')
     
 @given('ik ben als Vrijwilliger (FLAL) ingelogd')
 def check_inlog(context):
@@ -34,9 +38,7 @@ def check_inlog(context):
     base_url = context.base_url
     context.browser.visit(base_url)
     if context.browser.url == loggedoff_url:                                
-        context.browser.find_by_id('email').first.fill('Vrijwilliger FLAL')        
-        context.browser.find_by_id('password').first.fill('FLAL')          
-        context.browser.find_by_id('submit').first.click()                 
+        log_in(context, 'Vrijwilliger FLAL', 'FLAL')               
     assert context.browser.find_link_by_text('Vrijwilliger FLAL')
     
 @then('zie ik alleen links die vrijwilligers mogen zien')
@@ -53,9 +55,7 @@ def check_inlog(context):
     base_url = context.base_url
     context.browser.visit(base_url)
     if context.browser.url == loggedoff_url:                                
-        context.browser.find_by_id('email').first.fill('Vrijwilliger ACV')             
-        context.browser.find_by_id('password').first.fill('ACV')          
-        context.browser.find_by_id('submit').first.click()                  
+        log_in(context, 'Vrijwilliger ACV', 'ACV')                 
     assert context.browser.find_link_by_text('Vrijwilliger ACV')
     
 @then('kan ik niet via de adresbalk bij voor vrijwilliger illegale links komen')
