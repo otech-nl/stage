@@ -185,7 +185,7 @@ def check_toevoeging_deelnemer(context):
     cells = row.find_by_tag('td')
     cell = cells[0]
     deelnemer = cell.value
-    assert deelnemer == '[' + context.lidnummer + '] ' + 'T. E. S. T. ' + context.achternaam, deelnemer #+ '[' + context.lidnummer + '] ' + context.achternaam
+    assert deelnemer == '[' + context.lidnummer + '] ' + 'T. E. S. T. ' + context.achternaam, 'Deelnemer is niet aan de toegevoegd'
 
 @then('verwijdert behave de deelnemer voor volgende tests')
 def verwijder_deelnemer(context):
