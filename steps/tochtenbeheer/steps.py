@@ -162,14 +162,14 @@ def check_pagina(context):
     else:
         context.browser.visit('%s/registratie/11' % context.base_url)
         
-@when('ik in het veld achternaam een deelnemer invul')
+@when('ik in het veld achternaam een deelnemer invul')                          #hiervoor moet de 'Deelnemer' aan de database worden toegevoegd
 def deelnemernaam_invullen(context):
     context.achternaam = 'Deelnemer'
     context.browser.find_by_id('achternaam').first.fill(context.achternaam)
     
-@when('ik in het veld lidnummer het bijbehorende lidnummer invul')
-def lidnummer_invullen(context):
-    context.lidnummer = '3231'
+@when('ik in het veld lidnummer het bijbehorende lidnummer invul')              #als de 'Deelnemer' opnieuw in de database is gezet, zoals hierboven
+def lidnummer_invullen(context):                                                #genoemd, krijgt deze een nieuw lidnummer. Dit lidnummer moet aan
+    context.lidnummer = '3230'                                                  #deze stap worden toegevoegd
     context.browser.find_by_id('lidnummer').first.clear()
     context.browser.find_by_id('lidnummer').first.fill(context.lidnummer)
     
@@ -187,6 +187,23 @@ def check_toevoeging_deelnemer(context):
     deelnemer = cell.value
     assert deelnemer == '[' + context.lidnummer + '] ' + 'T. E. S. T. ' + context.achternaam, deelnemer #+ '[' + context.lidnummer + '] ' + context.achternaam
 
+@then('verwijdert behave de deelnemer voor volgende tests')
+def verwijder_deelnemer(context):
+    context.browser.visit('%s/afmelding/11' % context.base_url)
+    table = context.browser.find_by_tag('tbody')                
+    rows = table.find_by_tag('tr')                              
+    row = rows[0]
+    cells = row.find_by_tag('td')
+    cell = cells[0]
+    deelnemer = cell.value
+    if context.achternaam in deelnemer:
+        deelnemer.click()
+        context.browser.find_by_xpath('//a[@onclick="delete_item()"]').click()
+        context.browser.visit('%s/afmelding/11' % context.base_url)
+        assert context.achternaam not in deelnemer, 'verwijderen van deelnemer is mislukt'
+    else:
+        assert False, 'Deelnemer staat niet in de lijst. Als de voorgaande stap groen is dan is de lijst met deelnemers niet compleet op de afmeldingspagina'
+    
 @when('ik druk op de knop Afmelden deelnemers')
 def druk_knop_deelnemers_verwijderen(context):
     context.browser.find_link_by_partial_href('afmelding').first.click()
