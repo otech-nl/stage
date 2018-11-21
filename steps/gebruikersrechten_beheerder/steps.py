@@ -1,16 +1,19 @@
 from behave import given, when, then
+from time import sleep
 
 @when('ik de inloggegevens van een Beheerder (FLAL) invul')
 def inloggen_beheerder_FLAL(context):
-    context.browser.find_by_id('email').first.fill('Beheerder FLAL')
-    context.browser.find_by_id('password').first.fill('FLAL')
-    context.browser.find_by_id('submit').first.click()
+    if context.browser.is_element_present_by_id('email'):                       #zodat er wordt gewacht op het invulveld
+        context.browser.find_by_id('email').first.fill('Beheerder FLAL')
+        context.browser.find_by_id('password').first.fill('FLAL')
+        context.browser.find_by_id('submit').first.click()
     
 @when('ik de inloggegevens van een Beheerder (ACV) invul')
-def inloggen_beheerder_FLAL(context):
-    context.browser.find_by_id('email').first.fill('Beheerder ACV')
-    context.browser.find_by_id('password').first.fill('ACV')
-    context.browser.find_by_id('submit').first.click()
+def inlog_bestuurslid_ACV(context):
+    if context.browser.is_element_present_by_id('email'):                       #zodat er wordt gewacht op het invulveld
+        context.browser.find_by_id('email').first.fill('Beheerder ACV')
+        context.browser.find_by_id('password').first.fill('ACV')
+        context.browser.find_by_id('submit').first.click()
     
 @given('ik ben als Beheerder (FLAL) ingelogd')
 def check_inlog(context):
@@ -20,7 +23,7 @@ def check_inlog(context):
     if context.browser.url == loggedoff_url:                                
         context.browser.find_by_id('email').first.fill('Beheerder FLAL')             
         context.browser.find_by_id('password').first.fill('FLAL')          
-        context.browser.find_by_id('submit').first.click()                  
+        context.browser.find_by_id('submit').first.click()
     assert context.browser.find_link_by_text('Beheerder FLAL')
     
 @then('zie ik alleen de links die een beheerder mag zien')
@@ -40,5 +43,21 @@ def check_inlog(context):
     if context.browser.url == loggedoff_url:                                
         context.browser.find_by_id('email').first.fill('Beheerder ACV')             
         context.browser.find_by_id('password').first.fill('ACV')          
-        context.browser.find_by_id('submit').first.click()                  
-    assert context.browser.find_link_by_text('Beheerder ACV')
+        context.browser.find_by_id('submit').first.click()
+        assert context.browser.find_link_by_text('Beheerder ACV'), context.browser.find_link_by_tekst('Beheerder ACV').value
+    elif context.browser.find_link_by_partial_href('profiel').value != 'Beheerder ACV':
+        try:
+            context.browser.find_link_by_partial_href('/logout').first.click()
+            context.browser.find_by_id('email').first.fill('Beheerder ACV')             
+            context.browser.find_by_id('password').first.fill('ACV')          
+            context.browser.find_by_id('submit').first.click()
+            assert context.browser.find_link_by_text('Beheerder ACV'), context.browser.find_link_by_tekst('Beheerder ACV').value
+        except:
+            assert False, 'wtf is going on'
+    
+@then('kan ik niet via de adresbalk bij voor beheerder illegale links komen')
+def check_adresbalk(context):
+    niet_links = ['role', 'union']
+    for niet_link in niet_links:
+        context.browser.visit('%s/%s' % (context.base_url, niet_link))
+        assert context.browser.url != '%s/%s' % (context.base_url, niet_link), context.browser.url

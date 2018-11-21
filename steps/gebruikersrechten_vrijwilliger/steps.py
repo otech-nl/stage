@@ -1,4 +1,5 @@
 from behave import given, when, then
+from time import sleep
 
 @given('ik ben uitgelogd')
 def uitgelogd(context):
@@ -11,9 +12,10 @@ def uitgelogd(context):
             
 @when('ik de inloggegevens van een Vrijwilliger (FLAL) invul')
 def inlog_vrijwilliger_FLAL(context):
-    context.browser.find_by_id('email').first.fill('Vrijwilliger FLAL')
-    context.browser.find_by_id('password').first.fill('FLAL')
-    context.browser.find_by_id('submit').first.click() 
+    if context.browser.is_element_present_by_id('email'):                           #zodat er wordt gewacht op het invulveld
+        context.browser.find_by_id('email').first.fill('Vrijwilliger FLAL')
+        context.browser.find_by_id('password').first.fill('FLAL')
+        context.browser.find_by_id('submit').first.click() 
 
 @then('wordt ik ingelogd')
 def check_inlog(context):
@@ -21,9 +23,10 @@ def check_inlog(context):
     
 @when('ik de inloggegevens van een Vrijwilliger (ACV) invul')
 def inlog_vrijwilliger_ACV(context):
-    context.browser.find_by_id('email').first.fill('Vrijwilliger ACV')
-    context.browser.find_by_id('password').first.fill('ACV')
-    context.browser.find_by_id('submit').first.click() 
+    if context.browser.is_element_present_by_id('email'):                           #zodat er wordt gewacht op het invulveld
+        context.browser.find_by_id('email').first.fill('Vrijwilliger ACV')
+        context.browser.find_by_id('password').first.fill('ACV')
+        context.browser.find_by_id('submit').first.click() 
     
 @given('ik ben als Vrijwilliger (FLAL) ingelogd')
 def check_inlog(context):
@@ -54,5 +57,10 @@ def check_inlog(context):
         context.browser.find_by_id('password').first.fill('ACV')          
         context.browser.find_by_id('submit').first.click()                  
     assert context.browser.find_link_by_text('Vrijwilliger ACV')
-
     
+@then('kan ik niet via de adresbalk bij voor vrijwilliger illegale links komen')
+def check_adresbalk(context):
+    niet_links = ['instellingen', 'lid', 'rapport', 'user', 'role', 'union']
+    for niet_link in niet_links:
+        context.browser.visit('%s/%s' % (context.base_url, niet_link))
+        assert context.browser.url != '%s/%s' % (context.base_url, niet_link), context.browser.url
