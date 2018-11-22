@@ -76,3 +76,17 @@ Scenario: rechten(ACV)
 Stel ik ben als Beheerder (ACV) ingelogd
 Dan zie ik alleen de links die een beheerder mag zien
 En kan ik niet via de adresbalk bij voor beheerder illegale links komen
+
+@toernooipagina
+Scenario: toernooipagina ipv tochtenpagina
+Stel ik ben als Beheerder (ACV) ingelogd
+Als ik op de link Toernooien klik
+Dan kom ik op de toernooienpagina
+En zie ik een tabel met 3 kolommen "naam, datum, plaats"
+
+@toegang
+Scenario: toegang tot lidgegevens andere vereniging
+Stel ik ben als Beheerder (ACV) ingelogd
+En ik ben op de pagina ledenoverzicht
+Als ik een lidnummer invul van een lid van een andere vereniging
+Dan vind ik dat lid niet

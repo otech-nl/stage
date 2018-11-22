@@ -173,3 +173,46 @@ def check_adresbalk(context):
     for niet_link in niet_links:
         context.browser.visit('%s/%s' % (context.base_url, niet_link))
         assert context.browser.url != '%s/%s' % (context.base_url, niet_link), context.browser.url
+
+@when('ik een lidnummer invul van een lid van een andere vereniging')
+def vul_lidnummer_in(context):
+    context.lidnummerFLAL = '702'
+    context.browser.find_by_xpath('//input[@type="search"]').first.fill(context.lidnummerFLAL)
+    sleep(3)
+    
+@then('vind ik dat lid niet')
+def check_tabel(context):
+    table = context.browser.find_by_css('table.table')
+    assert len(table) > 0, 'geen table gevonden'
+    tabel = context.browser.find_by_tag('tbody')                 
+    rows = tabel.find_by_tag('tr') 
+    
+    #if context.browser.is_element_not_present_by_tag('td'):
+    #    assert True 
+    #else:
+    #    values = [row.find_by_tag('td')[5].value for row in rows]
+    #    assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
+        
+    #try:
+    #    tabel = context.browser.find_by_tag('tbody')
+    #    rows = tabel.find_by_tag('tr') 
+    #    values = [row.find_by_tag('td')[5].value for row in rows]
+    #    assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
+    #except IndexError:
+    #    assert True
+    
+    #try:
+    #    values = [row.find_by_tag('td')[5].value for row in rows]
+    #    assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
+    #except IndexError:
+    #    assert True
+    
+@when('ik op de link Toernooien klik')
+def klik_op_toernooien(context):
+    context.browser.find_link_by_partial_href('toernooi').first.click()
+    
+@then('kom ik op de toernooienpagina')
+def check_pagina(context):
+    assert context.browser.url == '%s/toernooi/' %context.base_url, 'pagina niet bereikt'
+    assert context.browser.is_text_present('Toernooi-overzicht'), 'geen toernooi-overzicht zichtbaar'
+    
