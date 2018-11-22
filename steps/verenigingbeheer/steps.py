@@ -83,5 +83,13 @@ def check_toevoeging(context):
 
 @then('verwijdert behave de vereniging voor volgende tests')
 def verwijder_toegevoegde_vereniging(context):
-    pass
+    rows = context.browser.find_by_tag('tr')
+    row = rows[-1]
+    cells = row.find_by_tag('td')
+    if cells[0].value == context.afkorting_vereniging:
+        try:
+            cell[0].click()
+            context.browser.find_by_xpath('//a[@onclick="delete_item()"]').click()
+        except:
+            assert False, 'verwijderknop niet aanwezig'
 # verenigingen kunnen niet verwijderd worden
