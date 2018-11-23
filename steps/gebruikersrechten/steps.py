@@ -165,7 +165,7 @@ def check_inlog(context):
             log_in(context, 'Beheerder ACV', 'ACV')
             assert context.browser.find_link_by_text('Beheerder ACV'), context.browser.find_link_by_tekst('Beheerder ACV').value
         except:
-            assert False, 'wtf is going on'
+            assert False
     
 @then('kan ik niet via de adresbalk bij voor beheerder illegale links komen')
 def check_adresbalk(context):
@@ -193,13 +193,13 @@ def check_tabel(context):
     #    values = [row.find_by_tag('td')[5].value for row in rows]
     #    assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
         
-    #try:
-    #    tabel = context.browser.find_by_tag('tbody')
-    #    rows = tabel.find_by_tag('tr') 
-    #    values = [row.find_by_tag('td')[5].value for row in rows]
-    #    assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
-    #except IndexError:
-    #    assert True
+    try:
+        tabel = context.browser.find_by_tag('tbody')
+        rows = tabel.find_by_tag('tr') 
+        values = [row.find_by_tag('td')[5].value for row in rows]
+        assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
+    except IndexError:
+        assert True
     
     #try:
     #    values = [row.find_by_tag('td')[5].value for row in rows]
