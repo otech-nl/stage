@@ -16,11 +16,11 @@ def ingelogd_check(context):
     if context.browser.url == loggedoff_url:                                
         log_in(context, 'admin', 'nimda')
     assert context.browser.url != loggedoff_url
-    context.browser.visit('%s/user/1' % base_url)
-    if context.browser.find_by_id('vereniging_id').value != '2':                    #zodat de steps, omdat ze geschreven zijn
-        context.browser.find_option_by_text('FLAL').first.click()                   #voor een FLAL account, goed verlopen.
-        context.browser.find_by_xpath('//button[@type="submit"]').first.click()     #.
-    context.browser.visit(base_url)                                                 #.
+    if context.browser.is_text_not_present('Systeembeheerder, FLAL'):               #.
+        context.browser.visit('%s/user/1' % base_url)                               #.
+        context.browser.find_option_by_text('FLAL').first.click()                   #zodat de steps, die geschreven zijn
+        context.browser.find_by_xpath('//button[@type="submit"]').first.click()     #voor een FLAL account, goed verlopen.
+        context.browser.visit(base_url)                                             #.
     
 @when('ik op de knop uitloggen druk')
 def klik_uitloggen(context):
