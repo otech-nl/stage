@@ -85,8 +85,15 @@ Dan kom ik op de toernooienpagina
 En zie ik een tabel met 3 kolommen "naam, datum, plaats"
 
 @toegang
-Scenario: toegang tot lidgegevens andere vereniging
+Scenario: ACV toegang tot lidgegevens andere vereniging FLAL
 Stel ik ben als Beheerder (ACV) ingelogd
 En ik ben op de pagina ledenoverzicht
-Als ik een lidnummer invul van een lid van een andere vereniging
+Als ik een lidnummer invul van een lid van FLAL
+Dan vind ik dat lid niet
+
+@toegang
+Scenario: FLAL toegang tot lidgegevens andere vereniging ACV
+Stel ik ben als Beheerder (FLAL) ingelogd
+En ik ben op de pagina ledenoverzicht
+Als ik een lidnummer invul van een lid van ACV
 Dan vind ik dat lid niet

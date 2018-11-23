@@ -140,6 +140,9 @@ def check_inlog(context):
     context.browser.visit(base_url)
     if context.browser.url == loggedoff_url:                                
         log_in(context, 'Beheerder FLAL', 'FLAL')
+    elif not context.browser.find_link_by_text('Beheerder FLAL'):
+        context.browser.find_link_by_partial_href('/logout').first.click()
+        log_in(context, 'Beheerder FLAL', 'FLAL')
     assert context.browser.find_link_by_text('Beheerder FLAL')
     
 @then('zie ik alleen de links die een beheerder mag zien')
@@ -174,9 +177,9 @@ def check_adresbalk(context):
         context.browser.visit('%s/%s' % (context.base_url, niet_link))
         assert context.browser.url != '%s/%s' % (context.base_url, niet_link), context.browser.url
 
-@when('ik een lidnummer invul van een lid van een andere vereniging')
+@when('ik een lidnummer invul van een lid van FLAL')
 def vul_lidnummer_in(context):
-    context.lidnummerFLAL = '702'
+    context.lidnummerFLAL = '1437'
     context.browser.find_by_xpath('//input[@type="search"]').first.fill(context.lidnummerFLAL)
     sleep(3)
     
@@ -186,26 +189,18 @@ def check_tabel(context):
     assert len(table) > 0, 'geen table gevonden'
     tabel = context.browser.find_by_tag('tbody')                 
     rows = tabel.find_by_tag('tr') 
-    
-    #if context.browser.is_element_not_present_by_tag('td'):
-    #    assert True 
-    #else:
-    #    values = [row.find_by_tag('td')[5].value for row in rows]
-    #    assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
-        
-    try:
-        tabel = context.browser.find_by_tag('tbody')
-        rows = tabel.find_by_tag('tr') 
-        values = [row.find_by_tag('td')[5].value for row in rows]
-        assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
-    except IndexError:
+    geen_resultaat = rows.find_by_tag('td').value
+    if geen_resultaat == 'Geen resultaten gevonden':
         assert True
-    
-    #try:
-    #    values = [row.find_by_tag('td')[5].value for row in rows]
-    #    assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging'
-    #except IndexError:
-    #    assert True
+    else:
+        values = [row.find_by_tag('td')[5].value for row in rows]
+        assert context.lidnummerFLAL not in values, 'gebruiker heeft toegang tot leden van andere vereniging' + context.lidnummerFLAL
+
+@when('ik een lidnummer invul van een lid van ACV')
+def vul_lidnummer_in(context):
+    context.lidnummerFLAL = '1454'
+    context.browser.find_by_xpath('//input[@type="search"]').first.fill(context.lidnummerFLAL)
+    sleep(3)
     
 @when('ik op de link Toernooien klik')
 def klik_op_toernooien(context):
