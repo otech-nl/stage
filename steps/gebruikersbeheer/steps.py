@@ -1,4 +1,5 @@
 from behave import given, when, then
+from time import sleep
 
 @given('ik ben niet op de pagina gebruikers')
 def check_pagina_is_niet(context):
@@ -28,10 +29,16 @@ def check_pagina(context):
 
 @when('ik op een gebruiker druk')
 def druk_op_een_gebruiker(context):
-    pass                                  #hoe behandel je een tabel???
+    table = context.browser.find_by_css('table.table')
+    assert len(table) > 0, 'geen table gevonden'
+    tabel = context.browser.find_by_tag('tbody')                 
+    rows = tabel.find_by_tag('tr')
+    cell = rows[0].find_by_tag('td')
+    context.naamGebruiker = cell.value
+    cell.click() 
 
 @then('zie ik de pagina om de gebruiker te bewerken')
 def check_pagina(context):
-    pass
-    #assert context.browser.url != '%s/user/0' % context.base_url
-                                        #   |ligt eraan welke gebruiker je aanklikt
+    assert context.naamGebruiker == context.browser.find_by_id('email').value
+
+    
