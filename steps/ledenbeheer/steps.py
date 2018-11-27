@@ -88,8 +88,10 @@ def selecteer_10(context):
 def check_tabel_lengte(context):
     tables = context.browser.find_by_css('table.table')
     assert len(tables) > 0, 'Geen datatable gevonden'
-    assert len(tables) <= 10, 'Tabel te lang'
-    
+    tabel = context.browser.find_by_tag('tbody')
+    rows = tabel.find_by_tag('tr')
+    assert len(rows) <= 10, 'tabel is te lang:' + len(rows)
+        
 @when('ik 100 selecteer in het aantal resultaten weergeven')
 def selecteer_100(context):
     context.browser.find_option_by_text('100').first.click()
@@ -98,7 +100,9 @@ def selecteer_100(context):
 def check_tabel_lengte(context):
     tables = context.browser.find_by_css('table.table')
     assert len(tables) > 0, 'Geen datatable gevonden'
-    assert len(tables) <= 100, 'Tabel te lang'    
+    tabel = context.browser.find_by_tag('tbody')
+    rows = tabel.find_by_tag('tr')
+    assert len(rows) <= 100, 'tabel is te lang:' + len(rows)
 
 @given('behave heeft een lijst van de tweede set van 10 leden')
 def stel_lijst_samen(context):
@@ -114,9 +118,9 @@ def bekijk_10_leden(context):
         
 @when('ik op pagina 2 druk')
 def ga_naar_pagina_2(context):
-    context.browser.find_by_xpath('//ul/li/a[@data-dt-idx="2"]').first.click()
-    sleep(1)
-    
+    if context.browser.is_element_present_by_xpath('//ul/li/a[@data-dt-idx="2"]'):
+        context.browser.find_by_xpath('//ul/li/a[@data-dt-idx="2"]').first.click()
+        
 @then('zie ik de tweede set van 10 leden')
 def check_lijst_tegen_lijst(context):
     table = context.browser.find_by_tag('tbody')                  
