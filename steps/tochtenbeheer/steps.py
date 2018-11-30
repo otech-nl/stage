@@ -142,10 +142,10 @@ def check_tocht(context):
     
 @given('ik ben op de tocht bewerken pagina')
 def check_pagina(context):
-    if context.browser.is_text_present('Tocht bewerken'):
-        pass
-    else:
-        context.browser.visit('%s/tocht/11' % context.base_url)
+    #if context.browser.is_text_present('Tocht bewerken'):
+    #    pass
+    #else:
+    context.browser.visit('%s/tocht/11' % context.base_url)
         
 @when('ik druk op de knop Aanmelden deelnemers')
 def druk_op_knop(context):
@@ -185,24 +185,28 @@ def check_toevoeging_deelnemer(context):
     cells = row.find_by_tag('td')
     cell = cells[0]
     deelnemer = cell.value
-    assert deelnemer == '[' + context.lidnummer + '] ' + 'T. E. S. T. ' + context.achternaam, 'Deelnemer is niet aan de toegevoegd'
+    context.complete_lidnaam = '[' + context.lidnummer + '] ' + 'T. E. S. T. ' + context.achternaam
+    assert deelnemer == context.complete_lidnaam, context.achternaam + ' is niet aan de toegevoegd'
 
 @then('verwijdert behave de deelnemer voor volgende tests')
 def verwijder_deelnemer(context):
     context.browser.visit('%s/afmelding/11' % context.base_url)
+    context.browser.find_by_id('lidnummer').first.fill(context.lidnummer)
+    context.browser.find_by_xpath('//button[@type="submit"]').first.click()
     table = context.browser.find_by_tag('tbody')                
     rows = table.find_by_tag('tr')                              
     row = rows[0]
     cells = row.find_by_tag('td')
     cell = cells[0]
     deelnemer = cell.value
-    if context.achternaam in deelnemer:
-        deelnemer.click()
-        context.browser.find_by_xpath('//a[@onclick="delete_item()"]').click()
-        context.browser.visit('%s/afmelding/11' % context.base_url)
-        assert context.achternaam not in deelnemer, 'verwijderen van deelnemer is mislukt'
-    else:
-        assert False, 'Deelnemer staat niet in de lijst. Als de voorgaande stap groen is dan is de lijst met deelnemers niet compleet op de afmeldingspagina'
+    assert deelnemer == context.complete_lidnaam, context.achternaam + ' is niet afgemeld'
+    #if context.achternaam in deelnemer:
+    #    cell.click()
+    #    context.browser.find_by_xpath('//a[@onclick="delete_item()"]').click()
+    #    context.browser.visit('%s/afmelding/11' % context.base_url)
+    #    assert context.achternaam not in deelnemer, 'verwijderen van deelnemer is mislukt'
+    #else:
+    #    assert False, 'Deelnemer staat niet in de lijst. Als de voorgaande stap groen is dan is de lijst met deelnemers niet compleet op de afmeldingspagina'
     
 @when('ik druk op de knop Afmelden deelnemers')
 def druk_knop_deelnemers_verwijderen(context):

@@ -123,6 +123,7 @@ def ga_naar_pagina_2(context):
         
 @then('zie ik de tweede set van 10 leden')
 def check_lijst_tegen_lijst(context):
+    context.browser.is_element_present_by_tag('tbody')
     table = context.browser.find_by_tag('tbody')                  
     rows = table.find_by_tag('tr')                                
     lijst = [row.find_by_tag('td')[2].value for row in rows] 
