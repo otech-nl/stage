@@ -1,6 +1,7 @@
 from behave import given, when, then
 from time import sleep
 from selenium.webdriver.common.keys import Keys
+#from datetime import datetime
 import datetime
 
 #@given('ik ben ingelogd')                                                   #wordt al gedaan in andere stepfile(uitloggen)
@@ -237,17 +238,18 @@ def eerstvolgende_tocht(context):
 
 @then('ligt die tocht in de toekomst')
 def toekomstvoorspelling(context):
-    now = datetime.datetime.now() 
-    heden = str(now.year) + '-' + str(now.month) + '-' + str(now.day)
-    assert context.datum_eerstvolgende_tocht >= heden
+    #now = datetime.datetime.now() 
+    context.heden = datetime.datetime.today()
+    context.toekomst = datetime.datetime.strptime(context.datum_eerstvolgende_tocht, '%Y-%m-%d')
+    assert context.toekomst >= context.heden, context.toekomst + ' is niet later dan ' + context.heden
     
 @then('is er geen tocht die eerder komt')
 def geen_andere_tocht(context):
     context.browser.visit('%s/tochten/' % context.base_url)
     table = context.browser.find_by_tag('tbody')                 
     rows = table.find_by_tag('tr') 
-    values = [row.find_by_tag('td')[1].value for row in rows]  
-    now = datetime.datetime.now() 
-    heden = str(now.year) + '-' + str(now.month) + '-' + str(now.day)    
+    values = [datetime.datetime.strptime(row.find_by_tag('td')[1].value, '%Y-%m-%d') for row in rows]  
+    #now = datetime.datetime.now() 
+    #heden = str(now.year) + '-' + str(now.month) + '-' + str(now.day)    
     for data in values:
-        assert data >= context.datum_eerstvolgende_tocht or heden >= data
+        assert data >= context.toekomst or context.heden >= data
