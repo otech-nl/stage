@@ -131,3 +131,15 @@ def check_lijst_tegen_lijst(context):
     rows = table.find_by_tag('tr')                                
     lijst = [row.find_by_tag('td')[2].value for row in rows] 
     assert lijst == context.lijst2, str(lijst) + ' is niet ' + str(context.lijst2)
+    
+@given('ik zie een tabel met honderd leden')
+def honderd_leden_tabel(context):
+    context.browser.find_option_by_text('100').first.click()
+    
+@then('zijn de lidnummers van deze leden uniek')
+def check_uniekheid(context):
+    tabel = context.browser.find_by_tag('tbody') 
+    rows = tabel.find_by_tag('tr') 
+    uniekelijst = set(row.find_by_tag('td')[5].value for row in rows) 
+    totalelijst = [row.find_by_tag('td')[5].value for row in rows] 
+    assert len(uniekelijst) == len(totalelijst), 'Er zijn minder unieke lidnummers dan leden in deze lijst. Dus niet elk lidnummer is uniek'

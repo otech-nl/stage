@@ -47,10 +47,10 @@ En ik zie 10 leden per pagina
 Als ik op pagina 2 druk
 Dan zie ik de tweede set van 10 leden
 
-
-
-
-
-
+@unieke_lidnummers
+Scenario: zijn lidnummer uniek
+Stel ik ben op de pagina ledenoverzicht
+En ik zie een tabel met honderd leden
+Dan zijn de lidnummers van deze leden uniek
 
 
