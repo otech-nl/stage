@@ -32,6 +32,7 @@ When ik 10 selecteer in het aantal resultaten weergeven
 Then krijg maximaal 10 resultaten per pagina te zien
 
 @100results
+@precondition(radish_test.feature: 10 resultaten weergeven)
 Scenario: 100 resultaten weergeven
 Given ik ben op de pagina ledenoverzicht
 When ik 100 selecteer in het aantal resultaten weergeven
