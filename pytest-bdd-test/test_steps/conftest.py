@@ -33,9 +33,9 @@ def setup(context, request):
                                   executable_path='/usr/lib/chromium-browser/chromedriver',
                                   headless=HEADLESS)
 
-    request.addfinalizer(fin)
+    request.addfinalizer(context.browser.quit)
 
 
-def fin(context):
-    if context.browser:
-        context.browser.quit()
+#def fin(context):
+#    if context.browser:
+#        context.browser.quit()
