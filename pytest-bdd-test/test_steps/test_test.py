@@ -37,17 +37,17 @@ def step_logged_off(context):
         context.browser.find_link_by_partial_href('/logout').first.click()
         
 @when('ik een geldige gebruikersnaam invoer')
-def vul_gebruikersnaam_in(browser):
-    browser.find_by_id('email').first.fill('admin')
+def vul_gebruikersnaam_in(context):
+    context.browser.find_by_id('email').first.fill('admin')
     
 @when('ik het goede wachtwoord invoer')
-def vul_wachtwoord_in(browser):
-    browser.find_by_id('password').first.fill('nimda')
+def vul_wachtwoord_in(context):
+    context.browser.find_by_id('password').first.fill('nimda')
     
 @when('ik op de knop inloggen druk')
-def klik_inloggen(browser):
-    browser.find_by_id('submit').first.click()
+def klik_inloggen(context):
+    context.browser.find_by_id('submit').first.click()
     
 @then('kom ik op de pagina Tochten')
-def inlog_tochten_pagina(browser, base_url):
-    assert browser.url == '%s/tocht/' % base_url
+def inlog_tochten_pagina(context):
+    assert context.browser.url == '%s/tocht/' % context.base_url
