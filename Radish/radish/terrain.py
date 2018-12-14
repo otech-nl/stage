@@ -17,7 +17,6 @@ def after_all(features, marker):
     close_browser()
     
 def start_browser():
-    #global world
     world.browser = chrome_driver()
     world.base_url = 'http://192.168.2.66' #testserver
     world.session = None  # for requests
@@ -28,13 +27,13 @@ def chrome_driver():
         browser = Browser('chrome',
                                   executable_path='/usr/lib/chromium-browser/chromedriver',
                                   headless=HEADLESS)
-        return browser
-        
+            
     elif os.name == 'nt':
         browser = Browser('chrome',
             executable_path='C:/Program Files (x86)/chromedriver.exe',
             headless=HEADLESS)
-        return browser
+    
+    return browser
 
 def close_browser():
     if world.browser:
