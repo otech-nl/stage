@@ -140,6 +140,6 @@ def honderd_leden_tabel(context):
 def check_uniekheid(context):
     tabel = context.browser.find_by_tag('tbody') 
     rows = tabel.find_by_tag('tr') 
-    totalelijst = [row.find_by_tag('td')[5].value for row in rows]
-    uniekelijst = set(totalelijst)
+    uniekelijst = set(row.find_by_tag('td')[5].value for row in rows) 
+    totalelijst = [row.find_by_tag('td')[5].value for row in rows] 
     assert len(uniekelijst) == len(totalelijst), 'Er zijn minder unieke lidnummers dan leden in deze lijst. Dus niet elk lidnummer is uniek'

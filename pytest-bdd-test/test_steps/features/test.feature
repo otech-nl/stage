@@ -12,3 +12,10 @@ Scenario: inloggen
 	And ik het goede wachtwoord invoer
 	And ik op de knop inloggen druk
 	Then kom ik op de pagina Tochten
+
+Scenario Outline: door de ledenpagina's navigeren
+	Given ik ben op de pagina ledenoverzicht
+	And behave heeft een lijst van de tweede set van 10 leden
+	And ik zie 10 leden per pagina
+	When ik op pagina 2 druk
+	Then zie ik de tweede set van 10 leden
