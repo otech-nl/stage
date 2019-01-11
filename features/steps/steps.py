@@ -8,6 +8,7 @@ from rollenbeheer import steps
 from rapporten import steps
 from verenigingbeheer import steps
 from gebruikersrechten import steps
+from vereniging import steps
 #from behave import given, when, then   #moet in de afzonderlijke steps files
 
 
